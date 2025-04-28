@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoPago</title>
+
+    <!-- tailwind css -->
+    <link rel="stylesheet" href="./output.css">
+
+    <!-- icones -->
+    <script src="https://kit.fontawesome.com/6aa0405f4a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Para efeitos ai -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Efeito de animacao (talvez melhorar) -->
+
+    <style>
+        @keyframes slide {
+            0% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-slide {
+            animation: slide 20s linear infinite;
+        }
+    </style>
+    <!-- <style>
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .animate-draw path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 2s ease-out forwards;
+        }
+    </style> -->
+
+
+</head>
+
+<body>
+    <!-- header -->
+    <header id="mainHeader"
+        class="fixed top-0 w-full py-4 z-50 transition-all duration-300 border-b border-white/30 font-[Outfit]">
+        <div class="flex   h-fit justify-evenly items-center ">
+            <div class="text-xl font-bold">Logo</div>
+
+            <!-- Desktop Nav -->
+            <nav class="space-x-6 hidden md:flex relative">
+                <a href="#home" class="hover:text-sky-500">Home</a>
+                <div class="group inline-block relative">
+                    <a href="#servicos" class="hover:text-sky-500">Serviços</a>
+                    <div class="absolute hidden group-hover:block bg-white shadow-lg rounded mt-2 py-2 w-40 z-20">
+                        <a href="#automacao" class="block px-4 py-2 hover:bg-sky-100 text-gray-700">Automação</a>
+                        <a href="#trafego" class="block px-4 py-2 hover:bg-sky-100 text-gray-700">Tráfego Pago</a>
+                    </div>
+                </div>
+                <a href="#planos" class="hover:text-sky-500">Planos</a>
+                <a href="#faq" class="hover:text-sky-500">Dúvidas</a>
+            </nav>
+
+            <!-- CTA Button -->
+            <a href="#"
+                class="px-6 py-3 object-none invisible md:visible bg-black text-white rounded-full font-semibold hover:bg-gray-800 transition">
+                Entrar em Contato
+            </a>
+
+            <!-- Mobile Menu Button -->
+            <button id="menuBtn" class="md:hidden text-black">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden justify-between bg-white shadow-md px-6 py-4 space-y-3">
+            <a href="#home" class="block text-gray-700 hover:text-sky-500">Home</a>
+            <a href="#automacao" class="block text-gray-700 hover:text-sky-500">Automação</a>
+            <a href="#trafego" class="block text-gray-700 hover:text-sky-500">Tráfego Pago</a>
+            <a href="#planos" class="block text-gray-700 hover:text-sky-500">Planos</a>
+            <a href="#faq" class="block text-gray-700 hover:text-sky-500">FAQ</a>
+            <a href="#cta" class="block bg-sky-500 text-white text-center py-2 rounded hover:bg-sky-600">Começar</a>
+        </div>
+    </header>
+
+    <!-- Home -->
+    <section id="home"
+        class="min-h-[75vh]  md:min-h-[85vh]  flex flex-col justify-center items-center text-center mx-2 mt-1 rounded-2xl px-4 bg-gradient-to-br from-teal-100 via-sky-200 to-blue-300 font-[Outfit]">
+
+        <h1 class=" text-5xl md:text-6xl mt-20 font- text-black mb-6">
+            Mais clientes,
+            <span class="relative whitespace-nowrap text-black-600">
+                <!-- Ideia de efeito de animacao -->
+                <svg aria-hidden="true" viewBox="0 0 418 42"
+                    class="absolute top-[0.9em] left-0 h-[0.58em] w-full fill-none stroke-white animate-draw"
+                    preserveAspectRatio="none">
+
+
+                    <!-- <path
+                        d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z"
+                        fill="rgb(147 197 253 / 0.7)" stroke="rgb(147 197 253)" stroke-width="1.5" /> -->
+                </svg>
+                <span class="relative">Menos esforço</span>
+            </span>
+        </h1>
+
+        <p class="text-lg text-gray-700 mb-8 max-w-2xl  ">
+            A solução ideal para quem quer vender mais sem precisar trabalhar dobrado.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+            <a href="#" class="px-6 py-3  bg-black text-white rounded-full font-semibold hover:bg-gray-800 transition">
+                Entrar em Contato
+            </a>
+            <a href="#"
+                class="relative inline-flex items-center justify-center px-4 py-2 rounded-full border border-transparent bg-white/15 shadow-md ring-1 ring-[#D15052]/15 after:absolute after:inset-0 after:rounded-full after:shadow-[inset_0_0_2px_1px_#ffffff4d] text-base font-medium whitespace-nowrap text-gray-950 hover:bg-white/20">
+                Ver Planos
+            </a>
+        </div>
+    </section>
+
+    <!-- Sessao de Videos  -->
+    <section id="Serviços" class="py-20 bg-white font-[Outfit]">
+        <div class="text-center pb-15 px-4 max-w-4xl mx-auto">
+            <span class="text-sky-600 font-semibold uppercase tracking-wider text-sm">Serviços</span>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mt-2 mb-4">
+                Impulsione com Tráfego Pago. Conquiste com Automação
+            </h2>
+            <p class="text-lg text-gray-600">
+                Escolha um plano completo com as melhores ferramentas para atrair clientes, automatizar atendimentos
+                e aumentar suas vendas com tráfego pago.
+            </p>
+        </div>
+        <div class="space-y-12 px-6 max-w-6xl mx-auto">
+
+            <!-- Bloco 1 -->
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <!-- Vídeo -->
+                <video controls class="w-full md:w-1/2 aspect-square object-cover rounded-xl shadow-md" autoplay muted>
+                    <source src="img/manyChat.mp4" type="video/mp4">
+                    Seu navegador não suporta vídeo.
+                </video>
+
+                <!-- Texto -->
+                <div class="w-full md:w-1/2 justify-center items-center flex flex-col">
+                    <div class="w-full md:max-w-[24rem] ">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Venda Automaticamente Enquanto Você Dorme</h2>
+                        <p class="text-gray-700 mb-6">
+                            Imagine conquistar novos clientes enquanto descansa. Nossa solução automatiza a atração e
+                            conversão de leads, para que seu negócio cresça no automático — sem complicações.
+                        </p>
+                        <a href="#planos"
+                            class="inline-block bg-black text-white px-6 py-3 rounded-full text-sm font-bold tracking-widest hover:bg-gray-800 transition">
+                            Entrar em Contato
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bloco 2 -->
+            <div class="flex flex-col-reverse md:flex-row items-center gap-8">
+                <!-- Texto -->
+                <div class="w-full md:w-1/2 justify-center items-center flex flex-col">
+                    <div class="w-full md:max-w-[24rem] ">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Automatização Inteligente para Escalar
+                            Resultados</h2>
+                        <p class="text-gray-700 mb-6">
+                            Capte informações essenciais de leads, integre automaticamente ao seu CRM e acelere suas
+                            vendas com processos 100% otimizados. Menos tarefas manuais, mais crescimento.
+                        </p>
+                        <a href="#planos"
+                            class="inline-block bg-black text-white px-6 py-3 rounded-full text-sm font-bold tracking-widest hover:bg-gray-800 transition">
+                            Entrar em Contato
+                        </a>
+                    </div>
+                </div>
+                <!-- Vídeo -->
+                <video controls class="w-full md:w-1/2 aspect-square object-cover rounded-xl shadow-md" autoplay muted>
+                    <source src="img/manyChat.mp4" type="video/mp4">
+                    Seu navegador não suporta vídeo.
+                </video>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Serviços de Automacao  -->
+    <section class="bg-sky-300 py-20 font-[Outfit]">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+
+            <!-- Lado esquerdo: imagem -->
+            <div class="relative flex justify-center items-center">
+                <img src="img/mulherflows_v3-copiar.webp" alt="Mulher com chatbot" class="rounded-3xl max-h-full">
+            </div>
+
+            <!-- Lado direito: textos -->
+            <div class="space-y-8">
+
+                <!-- Bloco grande -->
+                <div class="bg-sky-800 text-white p-6 rounded-2xl">
+                    <h2 class="text-2xl md:text-3xl font-bold">
+                        Seus clientes não vão nem notar que estão conversando com um chatbot!
+                    </h2>
+                    <p class="mt-4 text-sky-100">
+                        Com a nossa automação inteligente, o atendimento flui naturalmente — do primeiro 'olá' até o
+                        'compra confirmada'!
+                    </p>
+                </div>
+
+                <!-- Dois blocos menores -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-sky-50 p-6 rounded-2xl">
+                        <h3 class="text-xl font-semibold text-sky-600 flex flex-col  gap-2">
+                            Entramos na era da conversa que converte
+                        </h3>
+                        <p class="mt-2 text-sky-700">
+                            Nossa tecnologia permite que o usuário tire dúvidas, escolha, pague e finalize a compra,
+                            tudo no mesmo fluxo, 100% automatizado.
+                        </p>
+                    </div>
+
+                    <div class="bg-sky-50 p-6 rounded-2xl">
+                        <h3 class="text-xl font-semibold text-sky-600 flex items-center gap-2">
+                            O melhor jeito de fechar negócios
+                        </h3>
+                        <p class="mt-2 text-sky-700">
+                            Compreendemos o poder da conversa como ferramenta para grandes feitos.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Novo bloco "Canais" -->
+                <div class="bg-sky-50 p-6 rounded-2xl">
+                    <h2 class="text-2xl md:text-3xl font-bold text-center text-sky-600">
+                        Faça automações em todos os canais
+                    </h2>
+                    <p class="mt-4 text-center text-sky-700">
+                        Alcance seus clientes onde eles estiverem — WhatsApp, Instagram, Facebook, Messenger, SMS e
+                        Email.
+                    </p>
+
+                    <!-- Slider infinito -->
+                    <div class="w-full mt-8">
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper items-center">
+                                <!-- WhatsApp -->
+                                <div class="swiper-slide flex justify-center">
+                                    <img src="https://vollsolutions.com.br/wp-content/uploads/2023/11/whatsapp_outline.svg"
+                                        alt="WhatsApp" class="h-12">
+                                </div>
+                                <!-- Instagram -->
+                                <div class="swiper-slide flex justify-center">
+                                    <img src="https://i0.wp.com/vollsolutions.com.br/wp-content/uploads/2023/11/instagram_outline.png?fit=1080%2C1080&ssl=1"
+                                        alt="Instagram" class="h-12">
+                                </div>
+                                <!-- Facebook -->
+                                <div class="swiper-slide flex justify-center w-fit">
+                                    <img src="https://vollsolutions.com.br/wp-content/uploads/2023/11/facebook.svg"
+                                        alt="Facebook" class="h-12">
+                                </div>
+                                <!-- Messenger -->
+                                <div class="swiper-slide flex justify-center">
+                                    <img src="https://i0.wp.com/vollsolutions.com.br/wp-content/uploads/2023/11/messenger_rgb.png?fit=400%2C400&ssl=1"
+                                        alt="Messenger" class="h-12">
+                                </div>
+                                <!-- Email -->
+                                <div class="swiper-slide flex justify-center">
+                                    <img src="https://vollsolutions.com.br/wp-content/uploads/2023/11/Email.svg"
+                                        alt="Email" class="h-12">
+                                </div>
+                                <!-- SMS -->
+                                <div class="swiper-slide flex justify-center">
+                                    <img src="https://vollsolutions.com.br/wp-content/uploads/2023/11/SMS.svg" alt="SMS"
+                                        class="h-12">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Tráfego Pago -->
+    <section class="bg-white py-12 md:px-16 font-[Outfit]">
+        <div class="gap-6 max-w-7xl mx-auto px-6 flex flex-col lg:flex-row min-h-full"> <!-- alterei aqui -->
+            <!-- Coluna da esquerda -->
+            <div class="flex flex-col flex-[0.8] rounded-2xl lg:rounded-none"> <!-- alterei aqui -->
+                <img src="img/gestorDeTrafego.png" alt="Imagem gestor de tráfego"
+                    class="mb-6 w-full h-auto object-cover rounded-2xl lg:rounded-none lg:rounded-br-2xl">
+                <div class="bg-gray-100 p-6 flex flex-col flex-1 rounded-2xl lg:rounded-none lg:rounded-tr-2xl">
+                    <!-- alterei aqui -->
+                    <h4 class="text-sky-600 font-semibold uppercase text-sm mb-2">Tráfego Pago</h4>
+                    <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gray-800">Transforme sua empresa com tráfego
+                        pago estratégico</h2>
+                    <p class="text-gray-700 font-semibold mb-2">Alcance, atraia e converta como nunca antes.</p>
+                    <p class="text-gray-600 mb-6">
+                        Na Autopago, usamos o poder do tráfego pago para impulsionar seus resultados, gerar leads
+                        qualificados e aumentar suas vendas de forma inteligente.
+                    </p>
+                    <a href="#"
+                        class="inline-block mt-auto bg-sky-600 text-white  w-fit font-bold py-2 px-6 rounded-full hover:bg-sky-700 transition">
+                        Saiba mais
+                    </a>
+                </div>
+            </div>
+            <!-- Coluna da direita -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1"> <!-- alterei aqui -->
+                <!-- Card 1 -->
+                <div class="bg-gray-100 p-6 flex flex-col h-full rounded-2xl lg:rounded-none lg:rounded-b-2xl">
+                    <div class="text-sky-600 text-3xl mb-4">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Alcance o público ideal</h3>
+                    <p class="text-gray-600">
+                        Segmentação avançada para impactar diretamente quem tem maior potencial de compra.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-gray-100 p-6 flex flex-col h-full rounded-2xl lg:rounded-none lg:rounded-bl-2xl">
+                    <div class="text-sky-600 text-3xl mb-4">
+                        <i class="fas fa-comments-dollar"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Gere leads qualificados</h3>
+                    <p class="text-gray-600">
+                        Atraia pessoas realmente interessadas no seu produto ou serviço com campanhas otimizadas.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-gray-100 p-6 flex flex-col h-full rounded-2xl ">
+                    <div class="text-sky-600 text-3xl mb-4">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Maximize o ROI</h3>
+                    <p class="text-gray-600">
+                        Mais vendas, menos desperdício. Cada centavo investido gera retorno real e mensurável.
+                    </p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-gray-100 p-6 flex flex-col h-full rounded-2xl lg:rounded-none lg:rounded-l-2xl">
+                    <div class="text-sky-600 text-3xl mb-4">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Escale suas vendas</h3>
+                    <p class="text-gray-600">
+                        Tráfego pago com automação para expandir seu faturamento sem complicação.
+                    </p>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="bg-gray-100 p-6 flex flex-col h-full rounded-2xl lg:rounded-none lg:rounded-t-2xl">
+                    <div class="text-sky-600 text-3xl mb-4">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Otimizações constantes</h3>
+                    <p class="text-gray-600">
+                        Análise e ajustes em tempo real para manter suas campanhas sempre performando no máximo.
+                    </p>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="bg-gray-100 p-6 flex flex-col h-full rounded-2xl lg:rounded-none lg:rounded-tl-2xl">
+                    <div class="text-sky-600 text-3xl mb-4">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Relatórios detalhados</h3>
+                    <p class="text-gray-600">
+                        Painéis completos com dados de desempenho, conversões e oportunidades de melhoria.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Comentarios -->
+    <section class="bg-white py-20 font-[Outfit]">
+
+        <div class="text-center pb-15 px-4 max-w-4xl mx-auto">
+            <span class="text-sky-600 font-semibold uppercase tracking-wider text-sm">Depoimentos</span>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mt-2 mb-4">
+                Confiança construída com Resultados
+            </h2>
+            <p class="text-lg text-gray-600">
+                Empresas de todos os tamanhos confiam na Autopago para simplificar processos e maximizar resultados.
+            </p>
+        </div>
+        <div class="max-w-6xl mx-auto px-4">
+
+            <div class="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-8">
+                <div class="bg-gray-100 p-8 rounded-lg shadow gap-5 flex flex-col justify-between h-fit">
+                    <p class="text-gray-800 text-lg">
+                        "Com o tráfego pago da Autopago, conseguimos atrair clientes certos no momento ideal. Os
+                        resultados vieram rápido e com custo-benefício incrível."
+                    </p>
+
+                    <div class="flex items-center gap-5" style="height: 10%;">
+                        <img src="img/perfil.jpeg" alt="Judith Black" class="w-12 h-12 rounded-full object-cover" />
+                        <div>
+                            <p class="font-semibold text-gray-900">Minqad</p>
+                            <p class="text-gray-600 text-sm">CEO Da Pratique Fitness</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-gray-100 p-8 rounded-lg shadow transition-transform duration-300 ease-in-out transform hover:scale-105  gap-5 flex flex-col justify-between h-fit ">
+                    <p class="text-gray-800 text-lg">
+                        "A Autopago transformou completamente a forma como gerenciamos nossos pagamentos. A plataforma é
+                        intuitiva, segura e extremamente eficiente."
+                    </p>
+
+                    <div class="flex items-center gap-5 mt-4">
+                        <img src="img/images.jpeg" alt="Judith Black" class="w-12 h-12 rounded-full object-cover" />
+                        <div>
+                            <p class="font-semibold text-gray-900">Pratique Fitness</p>
+                            <p class="text-gray-600 text-sm">Maior Academia de Minas Gerais</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="bg-gray-100 p-8 rounded-lg shadow gap-5 flex flex-col justify-between h-fit">
+                    <p class="text-gray-800 text-lg">
+                        "Unir tráfego pago com automação na Autopago foi a chave para escalar nosso negócio. Ganhos em
+                        tempo, vendas e atendimento foram imediatos."
+                    </p>
+
+                    <div class="flex items-center gap-5" style="height: 10%;">
+                        <img src="img/perfil.jpeg" alt="Judith Black" class="w-12 h-12 rounded-full object-cover" />
+                        <div>
+                            <p class="font-semibold text-gray-900">Gostosa de Cinza</p>
+                            <p class="text-gray-600 text-sm">Referencias</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </section>
+
+    <!-- Planos -->
+    <section class="py-16 bg-gray-50 font-[Outfit]">
+        <div class="text-center pb-15 px-4 max-w-3xl mx-auto">
+            <span class="text-sky-600 font-semibold uppercase tracking-wider text-sm">Planos</span>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mt-2 mb-4">
+                Planos que Trabalham por Você
+            </h2>
+            <p class="text-lg text-gray-600">
+                Automação e tráfego pago combinados para escalar seu negócio.
+            </p>
+        </div>
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid grid-cols-1  md:grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+                <!-- Automação -->
+                <div
+                    class="group bg-white border border-gray-200 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:border-sky-500 hover:scale-105">
+                    <h3
+                        class="text-xl font-semibold text-gray-900 transition-colors duration-300  group-hover:text-sky-600  mb-2">
+                        Automação</h3>
+                    <p class="text-gray-500 mb-6">A automação de chatbots garante que seus clientes...</p>
+                    <div class="flex items-baseline mb-6">
+                        <span class="text-4xl font-bold text-gray-900  mr-1">R$999</span>
+                        <span class="text-gray-500">/mês</span>
+                    </div>
+                    <ul class="space-y-3 mb-6 text-sm text-gray-700">
+                        <li class="flex items-center"><span class="text-sky-500 mr-2">&#10004;</span> Atendimento
+                            24/7
+                        </li>
+                        <li class="flex items-center"><span class="text-sky-500 mr-2">&#10004; </span> Redução de Custos
+                            Operacionais</li>
+                        <li class="flex items-center"><span class="text-sky-500 mr-2">&#10004;</span>Melhora na
+                            Experiência do
+                            Cliente</li>
+                        <li class="flex items-center"><span class="text-sky-500 mr-2">&#10004;</span> Escalabilidade
+                        </li>
+                    </ul>
+                    <button
+                        class="w-full border border-sky-500 text-sky-500 font-semibold py-2 rounded-xl  hover:bg-sky-500 transition hover:text-white">Assinar</button>
+                </div>
+                <!-- Auto+pago -->
+                <div
+                    class="bg-white border border-gray-200 rounded-2xl p-8 shadow-lg scale-100 relative  transition-all duration-300 hover:border-sky-500 hover:scale-110 lg:scale-105">
+                    <div class="flex flex-row place-content-between gap-5">
+                        <h3 class="text-xl font-semibold text-sky-600 mb-2">AutoPago</h3>
+                        <div class="bg-sky-100 text-sky-600 text-[12px]/6 font-semibold p-2 rounded-full">Mais popular
+                        </div>
+                    </div>
+                    <p class="text-gray-500 mb-6">Eficiência e Conversão Otimizada: A combinação de tráfego pago e
+                        ...</p>
+                    <div class="flex items-baseline mb-6">
+                        <span class="text-4xl font-bold text-gray-900 mr-1">R$999</span>
+                        <span class="text-gray-500">/mês</span>
+                    </div>
+                    <ul class="space-y-3 mb-6 text-sm text-gray-700">
+                        <li class="flex items-center"><span class="text-sky-500 mr-2">&#10004;</span>Conversão mais
+                            rápida </li>
+                        <li class="flex items-center"><span class="text-sky-500 mr-2">&#10004;</span> Conversão mais
+                            rápida</li>
+                        <li class="flex items-center"><span class="text-sky-500 mr-2">&#10004;</span>Atendimento
+                            imediato</li>
+                        <li class="flex items-center"><span class="text-sky-500 mr-2">&#10004;</span> Escala com
+                            eficiência
+                        </li>
+                        <li class="flex items-center"><span class="text-sky-500 mr-2">&#10004;</span> Menor custo
+                            operacional
+                        </li>
+                    </ul>
+                    <button
+                        class="w-full bg-sky-500 text-white font-semibold py-2 rounded-xl transition hover:scale-105">Assinar</button>
+                </div>
+                <!-- Tráfego Pago -->
+                <div
+                    class="group bg-white border border-gray-200 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:border-sky-500 hover:scale-105">
+                    <h3
+                        class="text-xl font-semibold text-gray-900  transition-colors duration-300  group-hover:text-sky-600 mb-2">
+                        Tráfego Pago</h3>
+                    <p class="text-gray-500 mb-6">O tráfego pago permite direcionar anúncios para um públic...</p>
+                    <div class="flex items-baseline mb-6">
+                        <span class="text-4xl font-bold text-gray-900 mr-1 object-none">R$999</span>
+                        <span class="text-gray-500">/mês</span>
+                    </div>
+                    <ul class="space-y-3 mb-6 text-sm text-gray-700">
+                        <li class="flex items-center"><span class="text-sky-500 mr-2">&#10004;</span> Resultados
+                            Imediatos
+                        </li>
+                        <li class="flex items-center"><span class="text-sky-500 mr-2">&#10004;</span> Controle Total
+                            sobre
+                            Orçamento</li>
+                        <li class="flex items-center"><span class="text-sky-500 mr-2">&#10004;</span> Segmentação
+                            Avançada</li>
+                        <li class="flex items-center"><span class="text-sky-500 mr-2">&#10004;</span> Atração Rápida de
+                            Clientes
+                        </li>
+                    </ul>
+                    <button
+                        class="w-full border border-sky-500 text-sky-500 font-semibold py-2 rounded-xl hover:bg-sky-500 transition hover:text-white">Assinar</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dúvidas -->
+    <section class="py-16 bg-white font-[Outfit]">
+        <div class="max-w-3xl mx-auto px-4">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8">Dúvidas Frequentes</h2>
+            <!-- Pergunta 1 -->
+            <div class="divide-y divide-gray-200 ">
+                <div class="border-b border-gray-200  hover:border-sky-500 group transition-colors duration-200">
+                    <details class="group overflow-hidden transition-all duration-300 ease-in-out">
+                        <summary class="w-full flex justify-between items-center cursor-pointer list-none py-6">
+                            <h3 class="text-lg font-semibold text-gray-900 w-full">A automação substitui 100% o
+                                atendimento
+                                humano?</h3>
+                            <span class="text-gray-500 group-open:hidden group-hover:text-sky-400 text-2xl">+</span>
+                            <span
+                                class="text-gray-500 hidden group-open:inline  group-hover:text-sky-400 text-2xl">–</span>
+                        </summary>
+                        <div
+                            class="grid transition-all duration-300 ease-in-out group-open:grid-rows-[1fr] grid-rows-[0fr]">
+                            <div class="overflow-hidden">
+                                <p class="text-gray-600 mt-2">Não. Ela agiliza as interações iniciais e tarefas
+                                    repetitivas, mas o atendimento humano continua essencial para casos complexos.</p>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+                <!-- Pergunta 2 -->
+                <div class="divide-y divide-gray-200 :hover-divide-gray-violet">
+                    <div class="border-b border-gray-200  hover:border-sky-500 group transition-colors duration-200">
+                        <details class="group overflow-hidden transition-all duration-300 ease-in-out">
+                            <summary class="w-full flex justify-between items-center cursor-pointer list-none py-6">
+                                <h3 class="text-lg font-semibold text-gray-900 w-full">Quanto tempo leva para ver
+                                    resultados com tráfego pago?</h3>
+                                <span class="text-gray-500 group-open:hidden group-hover:text-sky-400 text-2xl">+</span>
+                                <span
+                                    class="text-gray-500 hidden group-open:inline  group-hover:text-sky-400 text-2xl">–</span>
+                            </summary>
+                            <div
+                                class="grid transition-all duration-300 ease-in-out group-open:grid-rows-[1fr] grid-rows-[0fr]">
+                                <div class="overflow-hidden">
+                                    <p class="text-gray-600 mt-2">Os primeiros resultados costumam aparecer em poucos
+                                        dias, mas otimizações contínuas são essenciais para o melhor desempenho.</p>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                    <!-- Pergunta 3 -->
+                    <div class="divide-y divide-gray-200 :hover-divide-gray-violet">
+                        <div
+                            class="border-b border-gray-200  hover:border-sky-500 group transition-colors duration-200">
+                            <details class="group overflow-hidden transition-all duration-300 ease-in-out">
+                                <summary class="w-full flex justify-between items-center cursor-pointer list-none py-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 w-full">Posso usar automação e
+                                        tráfego pago juntos?</h3>
+                                    <span
+                                        class="text-gray-500 group-open:hidden group-hover:text-sky-400 text-2xl">+</span>
+                                    <span
+                                        class="text-gray-500 hidden group-open:inline  group-hover:text-sky-400 text-2xl">–</span>
+                                </summary>
+                                <div
+                                    class="grid transition-all duration-300 ease-in-out group-open:grid-rows-[1fr] grid-rows-[0fr]">
+                                    <div class="overflow-hidden">
+                                        <p class="text-gray-600 mt-2">Sim! Unir os dois aumenta a conversão: o tráfego
+                                            atrai clientes e a automação mantém o engajamento até a venda.
+                                        </p>
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+                        <!-- Pergunta 4 -->
+                        <div class="divide-y divide-gray-200 :hover-divide-gray-violet">
+                            <div
+                                class="border-b border-gray-200  hover:border-sky-500 group transition-colors duration-200">
+                                <details class="group overflow-hidden transition-all duration-300 ease-in-out">
+                                    <summary
+                                        class="w-full flex justify-between items-center cursor-pointer list-none py-6">
+                                        <h3 class="text-lg font-semibold text-gray-900 w-full">Posso contratar só
+                                            automação ou só tráfego pago?</h3>
+                                        <span
+                                            class="text-gray-500 group-open:hidden group-hover:text-sky-400 text-2xl">+</span>
+                                        <span
+                                            class="text-gray-500 hidden group-open:inline  group-hover:text-sky-400 text-2xl">–</span>
+                                    </summary>
+                                    <div
+                                        class="grid transition-all duration-300 ease-in-out group-open:grid-rows-[1fr] grid-rows-[0fr]">
+                                        <div class="overflow-hidden">
+                                            <p class="text-gray-600 mt-2">Sim! Cada serviço pode ser contratado
+                                                separadamente. Você escolhe o que faz mais sentido para o seu negócio.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </details>
+                            </div>
+                            <!-- Pergunta 5 -->
+                            <div class="divide-y divide-gray-200 :hover-divide-gray-violet">
+                                <div
+                                    class="border-b border-gray-200  hover:border-sky-500 group transition-colors duration-200">
+                                    <details class="group overflow-hidden transition-all duration-300 ease-in-out">
+                                        <summary
+                                            class="w-full flex justify-between items-center cursor-pointer list-none py-6">
+                                            <h3 class="text-lg font-semibold text-gray-900 w-full">Posso cancelar quando
+                                                quiser?</h3>
+                                            <span
+                                                class="text-gray-500 group-open:hidden group-hover:text-sky-400 text-2xl">+</span>
+                                            <span
+                                                class="text-gray-500 hidden group-open:inline  group-hover:text-sky-400 text-2xl">–</span>
+                                        </summary>
+                                        <div
+                                            class="grid transition-all duration-300 ease-in-out group-open:grid-rows-[1fr] grid-rows-[0fr]">
+                                            <div class="overflow-hidden">
+                                                <p class="text-gray-600 mt-2">Com certeza! Nossos planos são flexíveis e
+                                                    você pode cancelar a qualquer momento, sem burocracia. Lorem ipsum
+                                                    dolor sit amet consectetur adipisicing elit. Similique at debitis
+                                                    voluptate dolorum! Quis cumque similique qui fuga facere, iste
+                                                    deserunt rem vitae, voluptas eum, itaque enim modi eos
+                                                    reprehenderit.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </details>
+                                </div>
+                                <!-- Pergunta 6 -->
+                                <div class="divide-y divide-gray-200 :hover-divide-gray-violet">
+                                    <div
+                                        class="border-b border-gray-200  hover:border-sky-500 group transition-colors duration-200">
+                                        <details class="group overflow-hidden transition-all duration-300 ease-in-out">
+                                            <summary
+                                                class="w-full flex justify-between items-center cursor-pointer list-none py-6">
+                                                <h3 class="text-lg font-semibold text-gray-900 w-full">Mulher tem
+                                                    desconto?</h3>
+                                                <span
+                                                    class="text-gray-500 group-open:hidden group-hover:text-sky-400 text-2xl">+</span>
+                                                <span
+                                                    class="text-gray-500 hidden group-open:inline  group-hover:text-sky-400 text-2xl">–</span>
+                                            </summary>
+                                            <div
+                                                class="grid transition-all duration-300 ease-in-out group-open:grid-rows-[1fr] grid-rows-[0fr]">
+                                                <div class="overflow-hidden">
+                                                    <p class="text-gray-600 mt-2">Com certeza no mínimo 50%, mas
+                                                        dependendo do que fizer é de graça
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </details>
+                                    </div>
+    </section>
+
+    <!-- CTA + Footer -->
+    <section
+        class="mt-20 mx-2 mb-1 rounded-3xl bg-gradient-to-br from-teal-100 via-sky-200 to-blue-300 shadow-xl overflow-hidden font-[Outfit]">
+
+        <!-- CTA Final -->
+        <div class="flex flex-col items-center justify-center text-center px-6 py-20">
+            <h2 class="text-3xl md:text-4xl text-black mb-6">
+                Transforme sua forma de vender com a <span class=" text-black">AutoPago</span><br
+                    class="hidden sm:block">
+                <span class="text-xl font-light block mt-2">Resultados reais, em menos tempo.</span>
+            </h2>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="#"
+                    class="px-6 py-3  bg-black text-white rounded-full font-semibold hover:bg-gray-800 transition">
+                    Entrar em Contato
+                </a>
+                <a href="#"
+                    class="relative inline-flex items-center justify-center px-4 py-2 rounded-full border border-transparent bg-white/15 shadow-md ring-1 ring-[#D15052]/15 after:absolute after:inset-0 after:rounded-full after:shadow-[inset_0_0_2px_1px_#ffffff4d] text-base font-medium whitespace-nowrap text-gray-950 hover:bg-white/20">
+                    Ver Planos
+                </a>
+            </div>
+        </div>
+        <div class="h-[0.3px] w-full bg-white"></div>
+        <!-- Footer -->
+        <footer class="text-gray-700 text-sm px-4 py-6 border-t-white">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
+                <div>
+                    © 2025 AutoPago. Todos os direitos reservados.
+                </div>
+                <div class="flex gap-4 text-xl mt-4 md:mt-0">
+                    <a href="#" class="hover:text-black hover:scale-105"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="hover:text-black hover:scale-105"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-black hover:scale-105"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-black hover:scale-105"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" class="hover:text-black hover:scale-105"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </footer>
+    </section>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        new Swiper(".mySwiper", {
+            slidesPerView: 4,
+            spaceBetween: 10,
+            loop: true,
+            speed: 3000,
+            allowTouchMove: false,
+            autoplay: {
+                delay: 0,
+                disableOnInteraction: false,
+            },
+            freeMode: {
+                enabled: true,
+                momentum: false,
+            },
+        });
+    </script>
+
+    <script>
+        // Mostrar/esconder menu mobile
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Efeito de transparência do header ao rolar
+        const header = document.getElementById('mainHeader');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                header.classList.remove('bg-transparent', 'border-white/10', 'py-4');
+                header.classList.add('bg-white', 'shadow', 'py-2');
+            } else {
+                header.classList.remove('bg-white', 'shadow', 'py-2');
+                header.classList.add('bg-transparent', 'border-white/10', 'py-4');
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>
